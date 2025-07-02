@@ -25,7 +25,7 @@ npm install -g @anthropic-ai/claude-code
 
 1. Clone this repository to your Ulauncher extensions directory:
 ```bash
-git clone https://github.com/jeremy/claude-code-ulauncher ~/.local/share/ulauncher/extensions/com.github.jeremy.claude-kitty
+git clone https://github.com/1jehuang/Claude-Code-ULauncher-Extension.git ~/.local/share/ulauncher/extensions/com.github.1jehuang.claude-code
 ```
 
 2. Restart Ulauncher or reload extensions
@@ -38,8 +38,10 @@ git clone https://github.com/jeremy/claude-code-ulauncher ~/.local/share/ulaunch
 
 Examples:
 - `k` - Opens Claude Code in terminal
-- `k test` - Opens Claude with "test" as argument
-- `k what is my default terminal` - Opens Claude with full question
+- `k help me debug this function` - Opens Claude with debugging request
+- `k write a python script that reads CSV files` - Opens Claude with specific coding task
+- `k explain what git rebase does` - Opens Claude with technical question
+- `k review my code for security issues` - Opens Claude for code review
 
 ## Configuration
 

@@ -1,9 +1,10 @@
 {
     "required_api_version": "2",
-    "id": "com.github.jeremy.claude-code",
+    "id": "com.github.1jehuang.claude-code",
     "name": "Claude Code Launcher",
-    "description": "Launch Claude Code in terminal with arguments support",
-    "developer_name": "Jeremy",
+    "description": "Launch Claude Code terminal sessions with keyword 'k' and argument support",
+    "developer_name": "1jehuang",
+    "version": "1.0.0",
     "icon": "images/icon.png",
     "options": {
         "query_debounce": 0.1
