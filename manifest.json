@@ -1,0 +1,20 @@
+{
+    "required_api_version": "2",
+    "id": "com.github.jeremy.claude-code",
+    "name": "Claude Code Launcher",
+    "description": "Launch Claude Code in terminal with arguments support",
+    "developer_name": "Jeremy",
+    "icon": "images/icon.png",
+    "options": {
+        "query_debounce": 0.1
+    },
+    "preferences": [
+        {
+            "id": "kw",
+            "type": "keyword",
+            "name": "Claude Code",
+            "description": "Keyword to launch Claude Code",
+            "default_value": "k"
+        }
+    ]
+}
