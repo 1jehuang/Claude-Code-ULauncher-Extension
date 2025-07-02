@@ -11,6 +11,10 @@ A simple Ulauncher extension to quickly launch Claude Code terminal sessions.
 - Starts Claude in your home directory
 - Works with any terminal (gnome-terminal, kitty, alacritty, etc.)
 
+## Screenshot
+
+![Claude Code Launcher Extension](images/screenshot.png)
+
 ## Prerequisites
 
 - [Ulauncher](https://ulauncher.io/) installed
