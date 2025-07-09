@@ -16,6 +16,13 @@
             "name": "Claude Code",
             "description": "Keyword to launch Claude Code",
             "default_value": "k"
+        },
+        {
+            "id": "kw_dangerous",
+            "type": "keyword",
+            "name": "Claude Code (Dangerous)",
+            "description": "Keyword to launch Claude Code with dangerous commands enabled",
+            "default_value": "kk"
         }
     ]
 }

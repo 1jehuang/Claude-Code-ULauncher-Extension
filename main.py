@@ -12,7 +12,7 @@ from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 logger = logging.getLogger(__name__)
 
 def get_default_terminal():
-    terminals = ['gnome-terminal', 'konsole', 'xfce4-terminal', 'terminator', 'alacritty', 'kitty', 'xterm']
+    terminals = ['ghostty', 'gnome-terminal', 'konsole', 'xfce4-terminal', 'terminator', 'alacritty', 'kitty', 'xterm']
     
     for terminal in terminals:
         if subprocess.run(['which', terminal], capture_output=True).returncode == 0:
@@ -49,7 +49,7 @@ def find_claude_path():
     
     return None
 
-def get_terminal_command(argument):
+def get_terminal_command(argument, dangerous=False):
     terminal = get_default_terminal()
     claude_path = find_claude_path()
     
@@ -57,12 +57,14 @@ def get_terminal_command(argument):
         return None
     
     home_dir = os.path.expanduser('~')
+    dangerous_flag = " --dangerously-skip-permissions" if dangerous else ""
+    
     if argument:
         # Properly escape the argument to handle spaces
         escaped_arg = argument.replace('"', '\\"')
-        return f'bash -c "cd {home_dir} && {terminal} -- {claude_path} \\"{escaped_arg}\\""'
+        return f'bash -c "cd {home_dir} && {terminal} -e \\"{claude_path}{dangerous_flag} \\\\\\"{escaped_arg}\\\\\\"\\" "'
     else:
-        return f'bash -c "cd {home_dir} && {terminal} -- {claude_path}"'
+        return f'bash -c "cd {home_dir} && {terminal} -e \\"{claude_path}{dangerous_flag}\\""'
 
 class ClaudeTerminalExtension(Extension):
 
@@ -74,10 +76,15 @@ class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event, extension):
         argument = event.get_argument() or ""
+        keyword = event.get_keyword()
         
         items = []
         
-        cmd = get_terminal_command(argument)
+        # Check if this is the dangerous keyword
+        kw_dangerous = extension.preferences.get('kw_dangerous')
+        is_dangerous = keyword == kw_dangerous
+        
+        cmd = get_terminal_command(argument, dangerous=is_dangerous)
         
         if not cmd:
             # Claude not found
@@ -88,17 +95,19 @@ class KeywordQueryEventListener(EventListener):
                 on_enter=HideWindowAction()
             ))
         elif argument:
+            dangerous_text = " (dangerous mode)" if is_dangerous else ""
             items.append(ExtensionResultItem(
                 icon='images/icon.png',
-                name=f'claude {argument}',
-                description=f'Launch terminal with "claude {argument}"',
+                name=f'claude {argument}{dangerous_text}',
+                description=f'Launch terminal with "claude {argument}"' + (" with dangerous permissions" if is_dangerous else ""),
                 on_enter=RunScriptAction(cmd, [])
             ))
         else:
+            dangerous_text = " (dangerous mode)" if is_dangerous else ""
             items.append(ExtensionResultItem(
                 icon='images/icon.png',
-                name='claude',
-                description='Launch terminal with claude code',
+                name=f'claude{dangerous_text}',
+                description='Launch terminal with claude code' + (" with dangerous permissions" if is_dangerous else ""),
                 on_enter=RunScriptAction(cmd, [])
             ))
         
