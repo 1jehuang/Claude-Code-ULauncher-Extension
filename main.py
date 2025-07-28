@@ -23,6 +23,8 @@ def get_default_terminal():
 def find_claude_path():
     """Find Claude Code installation path"""
     possible_paths = [
+        # Claude Code default installation
+        os.path.expanduser('~/.claude/local/claude'),
         # Global npm installations
         os.path.expanduser('~/.npm-global/bin/claude'),
         '/usr/local/bin/claude',
