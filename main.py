@@ -49,6 +49,16 @@ def find_claude_path():
     
     return None
 
+def get_resume_command():
+    terminal = get_default_terminal()
+    claude_path = find_claude_path()
+    
+    if not claude_path:
+        return None
+    
+    home_dir = os.path.expanduser('~')
+    return f'bash -c "cd {home_dir} && {terminal} -e \\"{claude_path} --resume --dangerously-skip-permissions\\""'
+
 def get_terminal_command(argument, dangerous=False):
     terminal = get_default_terminal()
     claude_path = find_claude_path()
@@ -82,9 +92,15 @@ class KeywordQueryEventListener(EventListener):
         
         # Check if this is the dangerous keyword
         kw_dangerous = extension.preferences.get('kw_dangerous')
+        kw_resume = extension.preferences.get('kw_resume')
         is_dangerous = keyword == kw_dangerous
+        is_resume = keyword == kw_resume
         
-        cmd = get_terminal_command(argument, dangerous=is_dangerous)
+        # Handle resume command specially
+        if is_resume:
+            cmd = get_resume_command()
+        else:
+            cmd = get_terminal_command(argument, dangerous=is_dangerous)
         
         if not cmd:
             # Claude not found
@@ -93,6 +109,13 @@ class KeywordQueryEventListener(EventListener):
                 name='Claude Code not found',
                 description='Install Claude Code: npm install -g @anthropic-ai/claude-code',
                 on_enter=HideWindowAction()
+            ))
+        elif is_resume:
+            items.append(ExtensionResultItem(
+                icon='images/icon.png',
+                name='claude resume (dangerous)',
+                description='Resume Claude Code session with dangerous permissions',
+                on_enter=RunScriptAction(cmd, [])
             ))
         elif argument:
             dangerous_text = " (dangerous mode)" if is_dangerous else ""

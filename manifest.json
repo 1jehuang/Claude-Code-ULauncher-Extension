@@ -1,6 +1,6 @@
 {
     "required_api_version": "2",
-    "id": "com.github.1jehuang.claude-code",
+    "id": "com.github.jeremy.claude-code",
     "name": "Claude Code Launcher",
     "description": "Launch Claude Code terminal sessions with keyword 'k' and argument support",
     "developer_name": "1jehuang",
@@ -23,6 +23,13 @@
             "name": "Claude Code (Dangerous)",
             "description": "Keyword to launch Claude Code with dangerous commands enabled",
             "default_value": "kk"
+        },
+        {
+            "id": "kw_resume",
+            "type": "keyword",
+            "name": "Claude Code Resume",
+            "description": "Keyword to resume Claude Code with dangerous permissions",
+            "default_value": "kr"
         }
     ]
 }
